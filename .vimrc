@@ -61,6 +61,9 @@ set shiftround
 " Not too deep, not too shallow
 set shiftwidth=2
 
+" Show line numbers
+set number
+
 " Show size of visual selection
 set showcmd
 
