@@ -198,7 +198,7 @@ let g:syntastic_ocaml_use_ocamlbuild = 1
 let g:syntastic_ocaml_checkers = ['merlin']
 
 " Currently disabled
-let g:pathogen_disabled = ['syntastic', 'ocamlmerlin']
+" let g:pathogen_disabled = ['syntastic', 'ocamlmerlin']
 set ofu=syntaxcomplete#Complete
 
 " Load Pathogen
@@ -208,7 +208,7 @@ call pathogen#infect()
 runtime! macros/matchit.vim
 
 " SnipMate stuff
-let g:snips_author = 'Markus Mottl'
+let g:snips_author = 'Zhe Wang'
 
 " MRU-functionality
 nnoremap <leader>m :MRU<CR>
@@ -235,7 +235,7 @@ nnoremap <leader>h :nohlsearch<CR>
 nnoremap <leader>w :w<CR>
 
 " ocp-indent - handled in "after/indent" now
-" autocmd FileType ocaml source ~/.opam/4.00.1/share/typerex/ocp-indent/ocp-indent.vim
+" autocmd FileType ocaml source ~/.opam/4.01.1/share/typerex/ocp-indent/ocp-indent.vim
 
 if filereadable(expand('~/.vimrc_local'))
   source ~/.vimrc_local
