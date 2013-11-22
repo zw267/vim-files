@@ -18,6 +18,10 @@ set iskeyword+=:
 " Remap F6 to refresh folds
 map <F6> ,rf<CR>
 
+" Create PDF
+let g:Tex_DefaultTargetFormat = 'pdf'
+let g:Tex_MultipleCompileFormats = 'pdf, aux'
+
 if !exists('s:initLatexSuite')
 	let s:initLatexSuite = 1
 	exec 'so '.fnameescape(expand('<sfile>:p:h').'/latex-suite/main.vim')
