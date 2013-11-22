@@ -168,6 +168,9 @@ set makeprg=ocamlbuild\ ${BUILDFLAGS}\ -use-ocamlfind\ all.otarget
 "set makeprg=omake\ -j\ 8
 
 " Tex stuff
+" Please refer to:
+" http://vim-latex.sourceforge.net/index.php?subject=download&title=Download
+"
 " IMPORTANT: win32 users will need to have 'shellslash' set so that latex
 " can be called correctly.
 set shellslash
