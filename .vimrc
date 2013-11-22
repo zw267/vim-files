@@ -193,6 +193,17 @@ set guioptions-=R
 set guioptions-=l
 set guioptions-=L
 
+" Change font when running gvim
+if has("gui_running")
+  if has("gui_gtk2")
+    set guifont=Monospace\ 11
+  elseif has("gui_macvim")
+    set guifont=Menlo\ Regular:h14
+  elseif has("gui_win32")
+    set guifont=Consolas:h11:cANSI
+  endif
+endif
+
 " Always show the menu, insert longest match
 set completeopt=menu,longest
 
