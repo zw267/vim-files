@@ -15,6 +15,9 @@ set sw=2
 " all the figure labels. Very useful!
 set iskeyword+=:
 
+" Remap F6 to refresh folds
+map <F6> ,rf<CR>
+
 if !exists('s:initLatexSuite')
 	let s:initLatexSuite = 1
 	exec 'so '.fnameescape(expand('<sfile>:p:h').'/latex-suite/main.vim')
