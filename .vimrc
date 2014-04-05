@@ -62,7 +62,7 @@ set shiftround
 set shiftwidth=2
 
 " Show line numbers
-set number
+"set number
 
 " Show size of visual selection
 set showcmd
