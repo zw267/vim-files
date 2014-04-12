@@ -35,7 +35,7 @@ inoremap <buffer> :i if
 inoremap <buffer> :r return
 inoremap <buffer> :t try
 inoremap <buffer> :c catch
-inoremap <buffer> :f finally
+inoremap <buffer> :F finally
 inoremap <buffer> :T throws
 inoremap <buffer> :R throw
 
