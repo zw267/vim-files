@@ -4,7 +4,7 @@ set tabstop=4
 set shiftwidth=4
 
 " Syntax highlighting settings.
-let g:java_allow_cpp_keywords=1
+let g:java_allow_cpp_keywords=0
 syntax on
 
 " Comma (,) prefixes a KEYWORD abbreviation
