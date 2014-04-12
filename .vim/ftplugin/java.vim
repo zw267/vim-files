@@ -70,14 +70,14 @@ inoremap <buffer> <C-_>C <C-V><code>
 inoremap <buffer> <C-_>c <C-V></code>
 
 " Helpful mappings when creating a new object
-" Type: Object o<F2>
+" Type: Object o<F8>
 " Get:  Object o = new Object();
-" F3 leaves the cursor between the parentheses.
+" F9 leaves the cursor between the parentheses.
 inoremap <buffer> <F8> <C-O>A = new <Esc>^yE<End>pA();<CR>
 inoremap <buffer> <F9> <C-O>A = new <Esc>^yE<End>pA();<Left><Left>
 
 " To create a javadoc comment above the current line
-nnoremap Zc O/**<CR><BS>*<CR>*/<Up><Space>
+nnoremap Zc O/**<CR><CR>/<Up><Space>
 
 " Useful when editing javadoc comments
 nnoremap ZR :se formatoptions+=ro<CR>
