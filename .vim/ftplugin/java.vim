@@ -79,6 +79,9 @@ inoremap <buffer> <F9> <C-O>A = new <Esc>^yE<End>pA();<Left><Left>
 " To create a javadoc comment above the current line
 nnoremap Zc O/**<CR><CR>/<Up><Space>
 
+" To create a normal multi-line comment above the current line
+nnoremap Zn O/*<CR><CR>/<Up><Space>
+
 " Useful when editing javadoc comments
 nnoremap ZR :se formatoptions+=ro<CR>
 nnoremap Zr :se formatoptions-=ro<CR>
