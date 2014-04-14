@@ -49,10 +49,10 @@ inoremap <buffer> <C-T>b boolean
 inoremap <buffer> <C-T>B Boolean
 inoremap <buffer> <C-T>c char
 inoremap <buffer> <C-T>C Char
-inoremap <buffer> <C-T>d Double
+inoremap <buffer> <C-T>d double
 inoremap <buffer> <C-T>D Double
 inoremap <buffer> <C-T>v void
-inoremap <buffer> <C-T>V Void
+inoremap <buffer> <C-T>V void
 inoremap <buffer> <C-T>s String
 inoremap <buffer> <C-T>S String
 inoremap <buffer> <C-T>e Exception
@@ -60,7 +60,7 @@ inoremap <buffer> <C-T>E Exception
 
 " CTRL + Underscore (_) prefixes a GENERAL abbreviation
 
-inoremap <buffer> <C-_>m public static void main(String args[])
+inoremap <buffer> <C-_>m public static void main(String args[]) {};<Left><Left>
 inoremap <buffer> <C-_>o System.out.println(X);<Esc>FXs
 inoremap <buffer> <C-_>e System.err.println(X);<Esc>FXs
 inoremap <buffer> <C-_>t true
