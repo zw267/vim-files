@@ -60,7 +60,7 @@ inoremap <buffer> <C-T>E Exception
 
 " CTRL + Underscore (_) prefixes a GENERAL abbreviation
 
-inoremap <buffer> <C-_>m public static void main(String args[]) {};<Left><Left>
+inoremap <buffer> <C-_>m public static void main(String args[]) {}<Left>
 inoremap <buffer> <C-_>o System.out.println(X);<Esc>FXs
 inoremap <buffer> <C-_>e System.err.println(X);<Esc>FXs
 inoremap <buffer> <C-_>t true
