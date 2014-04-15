@@ -48,7 +48,7 @@ inoremap <buffer> <C-T>L Long
 inoremap <buffer> <C-T>b boolean
 inoremap <buffer> <C-T>B Boolean
 inoremap <buffer> <C-T>c char
-inoremap <buffer> <C-T>C Char
+inoremap <buffer> <C-T>C Character
 inoremap <buffer> <C-T>d double
 inoremap <buffer> <C-T>D Double
 inoremap <buffer> <C-T>v void
