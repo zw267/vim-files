@@ -12,6 +12,11 @@ Setup
 
 3. Make a softlink from ~/.vim to /path-to-this-repo/.vim
 
+4. Install merlin
+   ```shell
+   opam install merlin
+   ```
+
 Reference
 ---------
 Originally forked from https://bitbucket.org/mmottl/vim-files by Markus Mottl.

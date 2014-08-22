@@ -269,6 +269,11 @@ nnoremap <leader>w :w<CR>
 " ocp-indent - handled in "after/indent" now
 " autocmd FileType ocaml source ~/.opam/4.01.1/share/typerex/ocp-indent/ocp-indent.vim
 
+" enable merlin
+let s:ocamlmerlin=substitute(system('opam config var share'),'\n$','','''') .  "/ocamlmerlin"
+execute "set rtp+=".s:ocamlmerlin."/vim"
+execute "set rtp+=".s:ocamlmerlin."/vimbufsync"
+
 if filereadable(expand('~/.vimrc_local'))
   source ~/.vimrc_local
 endif
