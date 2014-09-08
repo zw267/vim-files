@@ -274,8 +274,8 @@ let s:ocamlmerlin=substitute(system('opam config var share'),'\n$','','''') .  "
 execute "set rtp+=".s:ocamlmerlin."/vim"
 execute "set rtp+=".s:ocamlmerlin."/vimbufsync"
 
-" c++11 options
-let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
+" c++11 support
+let g:syntastic_cpp_compiler_options = ' -std=c++11'
 
 if filereadable(expand('~/.vimrc_local'))
   source ~/.vimrc_local
