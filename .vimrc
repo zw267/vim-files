@@ -270,9 +270,14 @@ nnoremap <leader>w :w<CR>
 " autocmd FileType ocaml source ~/.opam/4.01.1/share/typerex/ocp-indent/ocp-indent.vim
 
 " enable merlin
-let s:ocamlmerlin=substitute(system('opam config var share'),'\n$','','''') .  "/ocamlmerlin"
-execute "set rtp+=".s:ocamlmerlin."/vim"
-execute "set rtp+=".s:ocamlmerlin."/vimbufsync"
+"let s:ocamlmerlin=substitute(system('opam config var share'),'\n$','','''') .  "/ocamlmerlin"
+"execute "set rtp+=".s:ocamlmerlin."/vim"
+"execute "set rtp+=".s:ocamlmerlin."/vimbufsync"
+
+let g:opamshare=substitute(system('opam config var share'),'\n$','','''')
+execute "set rtp+=" . g:opamshare . "/merlin/vim"
+execute "set rtp+=" . g:opamshare . "/merlin/vimbufsync"
+":execute "helptags" . g:opamshare . "/merlin/vim/doc"
 
 " c++11 support
 let g:syntastic_cpp_compiler_options = ' -std=c++11'
