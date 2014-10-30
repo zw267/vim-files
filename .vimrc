@@ -276,7 +276,7 @@ nnoremap <leader>w :w<CR>
 
 let g:opamshare=substitute(system('opam config var share'),'\n$','','''')
 execute "set rtp+=" . g:opamshare . "/merlin/vim"
-execute "set rtp+=" . g:opamshare . "/merlin/vimbufsync"
+"execute "set rtp+=" . g:opamshare . "/merlin/vimbufsync"
 ":execute "helptags" . g:opamshare . "/merlin/vim/doc"
 
 " c++11 support
