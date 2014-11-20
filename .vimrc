@@ -98,7 +98,9 @@ set wildmode=list:longest,full
 " Use UTF-8
 set encoding=utf-8
 set termencoding=utf-8
-set fileencoding=utf-8
+if &modifiable
+  set fileencoding=utf-8
+endif
 
 " Backspacing + deleting and wrapping of lines
 set backspace=start,eol,indent whichwrap=b,s,l,h,<,>,[,]
@@ -208,7 +210,7 @@ endif
 set completeopt=menu,longest
 
 " Ignore irrelevant suffixes for filename completion
-set wildignore+=*.a,*.bak,*~,*.swp,*.o,*.info,*.aux,*.dvi,*.bbl,*.blg,*.brf,*.cb,*.ind,*.idx,*.ilg,*.inx,*.out,*.toc,*.cmi,*.cmo,*.cma,*.cmx,*.cmxa,$.cmxs,*.omc,*.annot,*.exe,*.native,*.byte,*.bc,*.sums,*.spit,*.spot
+set wildignore+=*.a,*.bak,*~,*.swp,*.o,*.info,*.aux,*.dvi,*.bbl,*.blg,*.brf,*.cb,*.ind,*.idx,*.ilg,*.inx,*.out,*.toc,*.cmi,*.cmo,*.cma,*.cmx,*.cmxa,$.cmxs,*.omc,*.annot,*.exe,*.native,*.byte,*.bc,*.sums,*.spit,*.spot,*.clib
 
 " Change directories automatically
 autocmd BufEnter * lcd %:p:h
@@ -267,7 +269,10 @@ nnoremap <leader>h :nohlsearch<CR>
 nnoremap <leader>w :w<CR>
 
 " ocp-indent - handled in "after/indent" now
-" autocmd FileType ocaml source ~/.opam/4.01.1/share/typerex/ocp-indent/ocp-indent.vim
+" let opamprefix=system("opam config var prefix | tr -d '\n'")
+" execute "autocmd FileType ocaml source ".opamprefix."/share/typerex/ocp-indent/ocp-indent.vim"
+let opamprefix=system("opam config var prefix | tr -d '\n'")
+execute ":source ".opamprefix."/share/vim/syntax/ocp-indent.vim"
 
 " enable merlin
 "let s:ocamlmerlin=substitute(system('opam config var share'),'\n$','','''') .  "/ocamlmerlin"
@@ -276,7 +281,7 @@ nnoremap <leader>w :w<CR>
 
 let g:opamshare=substitute(system('opam config var share'),'\n$','','''')
 execute "set rtp+=" . g:opamshare . "/merlin/vim"
-"execute "set rtp+=" . g:opamshare . "/merlin/vimbufsync"
+execute "set rtp+=" . g:opamshare . "/merlin/vimbufsync"
 ":execute "helptags" . g:opamshare . "/merlin/vim/doc"
 
 " c++11 support
