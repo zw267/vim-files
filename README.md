@@ -12,9 +12,10 @@ Setup
 
 3. Make a softlink from ~/.vim to /path-to-this-repo/.vim
 
-4. Install merlin
+4. Install OCaml packages
    ```shell
    opam install merlin
+   opam install ocp-indent
    ```
 
 Reference
