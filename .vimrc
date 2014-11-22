@@ -283,7 +283,7 @@ let g:opamshare=substitute(system('opam config var share'),'\n$','','''')
 execute "set rtp+=" . g:opamshare . "/merlin/vim"
 execute "set rtp+=" . g:opamshare . "/merlin/vimbufsync"
 ":execute "helptags" . g:opamshare . "/merlin/vim/doc"
-"nnoremap <leader>l :Locate<CR>
+nnoremap <leader>l :Locate<CR>
 
 " c++11 support
 let g:syntastic_cpp_compiler_options = ' -std=c++11'
