@@ -275,7 +275,7 @@ execute "set rtp+=".s:ocamlmerlin."/vim"
 execute "set rtp+=".s:ocamlmerlin."/vimbufsync"
 
 " c++11 support
-let g:syntastic_cpp_compiler_options = ' -std=c++11'
+" let g:syntastic_cpp_compiler_options = ' -std=c++11'
 
 if filereadable(expand('~/.vimrc_local'))
   source ~/.vimrc_local
