@@ -1,12 +1,13 @@
 "=============================================================================
-" Copyright (c) 2007-2010 Takeshi NISHIDA
+" Copyright (c) 2007-2009 Takeshi NISHIDA
 "
 "=============================================================================
 " LOAD GUARD {{{1
 
-if !l9#guardScriptLoading(expand('<sfile>:p'), 0, 0, [])
+if exists('g:loaded_autoload_fuf_mrucmd') || v:version < 702
   finish
 endif
+let g:loaded_autoload_fuf_mrucmd = 1
 
 " }}}1
 "=============================================================================
@@ -23,11 +24,6 @@ function fuf#mrucmd#getSwitchOrder()
 endfunction
 
 "
-function fuf#mrucmd#getEditableDataNames()
-  return ['items']
-endfunction
-
-"
 function fuf#mrucmd#renewCache()
 endfunction
 
@@ -38,12 +34,12 @@ endfunction
 
 "
 function fuf#mrucmd#onInit()
-  call fuf#defineLaunchCommand('FufMruCmd', s:MODE_NAME, '""', [])
+  call fuf#defineLaunchCommand('FufMruCmd', s:MODE_NAME, '""')
 endfunction
 
 "
 function fuf#mrucmd#onCommandPre(cmd)
-  if getcmdtype() =~# '^[:/?]'
+  if getcmdtype() =~ '^[:/?]'
     call s:updateInfo(a:cmd)
   endif
 endfunction
@@ -57,11 +53,11 @@ let s:MODE_NAME = expand('<sfile>:t:r')
 
 "
 function s:updateInfo(cmd)
-  let items = fuf#loadDataFile(s:MODE_NAME, 'items')
-  let items = fuf#updateMruList(
-        \ items, { 'word' : a:cmd, 'time' : localtime() },
+  let info = fuf#loadInfoFile(s:MODE_NAME)
+  let info.data = fuf#updateMruList(
+        \ info.data, { 'word' : a:cmd, 'time' : localtime() },
         \ g:fuf_mrucmd_maxItem, g:fuf_mrucmd_exclude)
-  call fuf#saveDataFile(s:MODE_NAME, 'items', items)
+  call fuf#saveInfoFile(s:MODE_NAME, info)
 endfunction
 
 " }}}1
@@ -77,40 +73,26 @@ endfunction
 
 "
 function s:handler.getPrompt()
-  return fuf#formatPrompt(g:fuf_mrucmd_prompt, self.partialMatching, '')
+  return g:fuf_mrucmd_prompt
 endfunction
 
 "
-function s:handler.getPreviewHeight()
+function s:handler.targetsPath()
   return 0
 endfunction
 
 "
-function s:handler.isOpenable(enteredPattern)
-  return 1
+function s:handler.onComplete(patternSet)
+  return fuf#filterMatchesAndMapToSetRanks(
+        \ self.items, a:patternSet,
+        \ self.getFilteredStats(a:patternSet.raw), self.targetsPath())
 endfunction
 
 "
-function s:handler.makePatternSet(patternBase)
-  return fuf#makePatternSet(a:patternBase, 's:interpretPrimaryPatternForNonPath',
-        \                   self.partialMatching)
-endfunction
-
-"
-function s:handler.makePreviewLines(word, count)
-  return []
-endfunction
-
-"
-function s:handler.getCompleteItems(patternPrimary)
-  return self.items
-endfunction
-
-"
-function s:handler.onOpen(word, mode)
-  call s:updateInfo(a:word)
-  call histadd(a:word[0], a:word[1:])
-  call feedkeys(a:word . "\<CR>", 'n')
+function s:handler.onOpen(expr, mode)
+  call s:updateInfo(a:expr)
+  call histadd(a:expr[0], a:expr[1:])
+  call feedkeys(a:expr . "\<CR>", 'n')
 endfunction
 
 "
@@ -119,10 +101,11 @@ endfunction
 
 "
 function s:handler.onModeEnterPost()
-  let self.items = fuf#loadDataFile(s:MODE_NAME, 'items')
-  call map(self.items, 'fuf#makeNonPathItem(v:val.word, strftime(g:fuf_timeFormat, v:val.time))')
+  let self.items = deepcopy(self.info.data)
+  let self.items = map(self.items, 'fuf#setMenuWithFormattedTime(v:val)')
+  let self.items = map(self.items, 'fuf#setBoundariesWithWord(v:val)')
   call fuf#mapToSetSerialIndex(self.items, 1)
-  call map(self.items, 'fuf#setAbbrWithFormattedWord(v:val, 1)')
+  let self.items = map(self.items, 'fuf#setAbbrWithFormattedWord(v:val)')
 endfunction
 
 "

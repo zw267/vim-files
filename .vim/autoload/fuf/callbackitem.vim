@@ -1,12 +1,13 @@
 "=============================================================================
-" Copyright (c) 2007-2010 Takeshi NISHIDA
+" Copyright (c) 2007-2009 Takeshi NISHIDA
 "
 "=============================================================================
 " LOAD GUARD {{{1
 
-if !l9#guardScriptLoading(expand('<sfile>:p'), 0, 0, [])
+if exists('g:loaded_autoload_fuf_callbackitem') || v:version < 702
   finish
 endif
+let g:loaded_autoload_fuf_callbackitem = 1
 
 " }}}1
 "=============================================================================
@@ -20,11 +21,6 @@ endfunction
 "
 function fuf#callbackitem#getSwitchOrder()
   return -1
-endfunction
-
-"
-function fuf#callbackitem#getEditableDataNames()
-  return []
 endfunction
 
 "
@@ -45,15 +41,15 @@ function fuf#callbackitem#launch(initialPattern, partialMatching, prompt, listen
   let s:prompt = (empty(a:prompt) ? '>' : a:prompt)
   let s:listener = a:listener
   let s:forPath = a:forPath
-  let s:items = copy(a:items)
   if s:forPath
-    call map(s:items, 'fuf#makePathItem(v:val, "", 1)')
+    let s:items = map(copy(a:items), 'fuf#makePathItem(v:val, 1)')
     call fuf#mapToSetSerialIndex(s:items, 1)
     call fuf#mapToSetAbbrWithSnippedWordAsPath(s:items)
   else
-    call map(s:items, 'fuf#makeNonPathItem(v:val, "")')
+    let s:items = map(copy(a:items), '{ "word" : v:val }')
+    let s:items = map(s:items, 'fuf#setBoundariesWithWord(v:val)')
     call fuf#mapToSetSerialIndex(s:items, 1)
-    call map(s:items, 'fuf#setAbbrWithFormattedWord(v:val, 1)')
+    let s:items = map(s:items, 'fuf#setAbbrWithFormattedWord(v:val)')
   endif
   call fuf#launch(s:MODE_NAME, a:initialPattern, a:partialMatching)
 endfunction
@@ -77,46 +73,30 @@ endfunction
 
 "
 function s:handler.getPrompt()
-  return fuf#formatPrompt(s:prompt, self.partialMatching, '')
+  return s:prompt
 endfunction
 
 "
-function s:handler.getPreviewHeight()
+function s:handler.targetsPath()
+  return s:forPath
+endfunction
+
+"
+function s:handler.onComplete(patternSet)
   if s:forPath
-    return g:fuf_previewHeight
+    return fuf#filterMatchesAndMapToSetRanks(
+          \ s:items, a:patternSet,
+          \ self.getFilteredStats(a:patternSet.raw), self.targetsPath())
+  else
+    return fuf#filterMatchesAndMapToSetRanks(
+          \ s:items, a:patternSet,
+          \ self.getFilteredStats(a:patternSet.raw), self.targetsPath())
   endif
-  return 0
 endfunction
 
 "
-function s:handler.isOpenable(enteredPattern)
-  return 1
-endfunction
-
-"
-function s:handler.makePatternSet(patternBase)
-  let parser = (s:forPath
-        \       ? 's:interpretPrimaryPatternForPath'
-        \       : 's:interpretPrimaryPatternForNonPath')
-  return fuf#makePatternSet(a:patternBase, parser, self.partialMatching)
-endfunction
-
-"
-function s:handler.makePreviewLines(word, count)
-  if s:forPath
-    return fuf#makePreviewLinesForFile(a:word, a:count, self.getPreviewHeight())
-  endif
-  return []
-endfunction
-
-"
-function s:handler.getCompleteItems(patternPrimary)
-  return s:items
-endfunction
-
-"
-function s:handler.onOpen(word, mode)
-  call s:listener.onComplete(a:word, a:mode)
+function s:handler.onOpen(expr, mode)
+  call s:listener.onComplete(a:expr, a:mode)
 endfunction
 
 "
@@ -129,7 +109,7 @@ endfunction
 
 "
 function s:handler.onModeLeavePost(opened)
-  if !a:opened && exists('s:listener.onAbort()')
+  if !a:opened
     call s:listener.onAbort()
   endif
 endfunction

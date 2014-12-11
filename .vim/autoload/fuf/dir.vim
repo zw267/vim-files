@@ -1,12 +1,13 @@
 "=============================================================================
-" Copyright (c) 2007-2010 Takeshi NISHIDA
+" Copyright (c) 2007-2009 Takeshi NISHIDA
 "
 "=============================================================================
 " LOAD GUARD {{{1
 
-if !l9#guardScriptLoading(expand('<sfile>:p'), 0, 0, [])
+if exists('g:loaded_autoload_fuf_dir') || v:version < 702
   finish
 endif
+let g:loaded_autoload_fuf_dir = 1
 
 " }}}1
 "=============================================================================
@@ -23,11 +24,6 @@ function fuf#dir#getSwitchOrder()
 endfunction
 
 "
-function fuf#dir#getEditableDataNames()
-  return []
-endfunction
-
-"
 function fuf#dir#renewCache()
   let s:cache = {}
 endfunction
@@ -39,9 +35,9 @@ endfunction
 
 "
 function fuf#dir#onInit()
-  call fuf#defineLaunchCommand('FufDir'                    , s:MODE_NAME, '""', [])
-  call fuf#defineLaunchCommand('FufDirWithFullCwd'         , s:MODE_NAME, 'fnamemodify(getcwd(), '':p'')', [])
-  call fuf#defineLaunchCommand('FufDirWithCurrentBufferDir', s:MODE_NAME, 'expand(''%:~:.'')[:-1-len(expand(''%:~:.:t''))]', [])
+  call fuf#defineLaunchCommand('FufDir'                    , s:MODE_NAME, '""')
+  call fuf#defineLaunchCommand('FufDirWithFullCwd'         , s:MODE_NAME, 'fnamemodify(getcwd(), '':p'')')
+  call fuf#defineLaunchCommand('FufDirWithCurrentBufferDir', s:MODE_NAME, 'expand(''%:~:.'')[:-1-len(expand(''%:~:.:t''))]')
 endfunction
 
 " }}}1
@@ -52,12 +48,12 @@ let s:MODE_NAME = expand('<sfile>:t:r')
 
 "
 function s:enumItems(dir)
-  let key = getcwd() . g:fuf_ignoreCase . g:fuf_dir_exclude . "\n" . a:dir
+  let key = getcwd() . "\n" . a:dir
   if !exists('s:cache[key]')
     let s:cache[key] = fuf#enumExpandedDirsEntries(a:dir, g:fuf_dir_exclude)
-    call filter(s:cache[key], 'v:val.word =~# ''[/\\]$''')
+    call filter(s:cache[key], 'v:val.word =~ ''[/\\]$''')
     if isdirectory(a:dir)
-      call insert(s:cache[key], fuf#makePathItem(a:dir . '.', '', 0))
+      call insert(s:cache[key], fuf#makePathItem(a:dir . '.', 0))
     endif
     call fuf#mapToSetSerialIndex(s:cache[key], 1)
     call fuf#mapToSetAbbrWithSnippedWordAsPath(s:cache[key])
@@ -78,41 +74,24 @@ endfunction
 
 "
 function s:handler.getPrompt()
-  return fuf#formatPrompt(g:fuf_dir_prompt, self.partialMatching, '')
+  return g:fuf_dir_prompt
 endfunction
 
 "
-function s:handler.getPreviewHeight()
-  return g:fuf_previewHeight
+function s:handler.targetsPath()
+  return 1
 endfunction
 
 "
-function s:handler.isOpenable(enteredPattern)
-  return a:enteredPattern =~# '[^/\\]$'
+function s:handler.onComplete(patternSet)
+  return fuf#filterMatchesAndMapToSetRanks(
+        \ s:enumItems(a:patternSet.rawHead), a:patternSet,
+        \ self.getFilteredStats(a:patternSet.raw), self.targetsPath())
 endfunction
 
 "
-function s:handler.makePatternSet(patternBase)
-  return fuf#makePatternSet(a:patternBase, 's:interpretPrimaryPatternForPathTail',
-        \                   self.partialMatching)
-endfunction
-
-"
-function s:handler.makePreviewLines(word, count)
-  return fuf#makePreviewLinesAround(
-        \ fuf#glob(fnamemodify(a:word, ':p') . '*'),
-        \ [], a:count, self.getPreviewHeight())
-  return 
-endfunction
-
-"
-function s:handler.getCompleteItems(patternPrimary)
-  return s:enumItems(fuf#splitPath(a:patternPrimary).head)
-endfunction
-
-"
-function s:handler.onOpen(word, mode)
-  execute ':cd ' . fnameescape(a:word)
+function s:handler.onOpen(expr, mode)
+  execute ':cd ' . fnameescape(a:expr)
 endfunction
 
 "
