@@ -271,19 +271,19 @@ nnoremap <leader>w :w<CR>
 " ocp-indent - handled in "after/indent" now
 " let opamprefix=system("opam config var prefix | tr -d '\n'")
 " execute "autocmd FileType ocaml source ".opamprefix."/share/typerex/ocp-indent/ocp-indent.vim"
-let opamprefix=system("opam config var prefix | tr -d '\n'")
-execute ":source ".opamprefix."/share/vim/syntax/ocp-indent.vim"
+"let opamprefix=system("opam config var prefix | tr -d '\n'")
+"execute ":source ".opamprefix."/share/vim/syntax/ocp-indent.vim"
 
 " enable merlin
 "let s:ocamlmerlin=substitute(system('opam config var share'),'\n$','','''') .  "/ocamlmerlin"
 "execute "set rtp+=".s:ocamlmerlin."/vim"
 "execute "set rtp+=".s:ocamlmerlin."/vimbufsync"
 
-let g:opamshare=substitute(system('opam config var share'),'\n$','','''')
-execute "set rtp+=" . g:opamshare . "/merlin/vim"
-execute "set rtp+=" . g:opamshare . "/merlin/vimbufsync"
+"let g:opamshare=substitute(system('opam config var share'),'\n$','','''')
+"execute "set rtp+=" . g:opamshare . "/merlin/vim"
+"execute "set rtp+=" . g:opamshare . "/merlin/vimbufsync"
 ":execute "helptags" . g:opamshare . "/merlin/vim/doc"
-nnoremap <leader>l :Locate<CR>
+"nnoremap <leader>l :Locate<CR>
 
 " c++11 support
 let g:syntastic_cpp_compiler_options = ' -std=c++11'
