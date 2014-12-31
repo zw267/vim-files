@@ -138,8 +138,11 @@ else
 endif
 
 " Use my color preferences
-set background=dark
-colorscheme markus
+"set background=dark
+"colorscheme markus
+set background=light
+"colorscheme desert
+colorscheme evening
 
 " Ex-mode is pretty dumb, remap Q to reformat the current paragraph
 nnoremap Q gqip
