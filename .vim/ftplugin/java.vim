@@ -85,3 +85,6 @@ nnoremap Zn O/*<CR>/<Up><Space>
 " Useful when editing javadoc comments
 nnoremap ZR :se formatoptions+=ro<CR>
 nnoremap Zr :se formatoptions-=ro<CR>
+
+" autocomplete in eclim
+inoremap <buffer> . .<C-X><C-U>
