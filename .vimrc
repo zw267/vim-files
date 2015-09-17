@@ -272,7 +272,9 @@ nnoremap <leader>w :w<CR>
 " let opamprefix=system("opam config var prefix | tr -d '\n'")
 " execute "autocmd FileType ocaml source ".opamprefix."/share/typerex/ocp-indent/ocp-indent.vim"
 let opamprefix=system("opam config var prefix | tr -d '\n'")
-execute ":source ".opamprefix."/share/vim/syntax/ocp-indent.vim"
+set rtp^= ".opamprefix."/share/ocp-indent/vim"
+"execute ":source ".opamprefix."/share/ocp-indent/vim"
+"set rtp^="/Users/zw267/.opam/system/share/ocp-indent/vim"
 
 " enable merlin
 "let s:ocamlmerlin=substitute(system('opam config var share'),'\n$','','''') .  "/ocamlmerlin"
